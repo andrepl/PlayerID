@@ -1,0 +1,3 @@
+debug-mode: true
+datastore:
+  type: yaml
