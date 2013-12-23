@@ -38,6 +38,7 @@ public abstract class Datastore {
 	static {
 		try {
 			register("yaml", YamlDatastore.class);
+			register("redis", RedisDatastore.class);
 		} catch (DatastoreException ex) {
 			ex.printStackTrace();
 		}
