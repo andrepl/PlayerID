@@ -1,4 +1,4 @@
-package com.norcode.bukkit.playerid;
+package com.norcode.bukkit.playerid.datastore;
 
 public class DatastoreException extends Exception {
 	public DatastoreException() {

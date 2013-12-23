@@ -1,5 +1,8 @@
 package com.norcode.bukkit.playerid;
 
+import com.norcode.bukkit.playerid.command.PlayerIDCommand;
+import com.norcode.bukkit.playerid.datastore.Datastore;
+import com.norcode.bukkit.playerid.datastore.DatastoreException;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,39 +23,28 @@ public class PlayerID extends JavaPlugin implements Listener {
 	private HashMap<UUID, String> playerMap = new HashMap<UUID, String>();
 	private static PlayerID instance;
 	private Datastore datastore;
-
+	private PlayerIDCommand command;
 
 	@Override
 	public void onEnable() {
+		this.command = new PlayerIDCommand(this);
 		instance = this;
-		if (!getDataFolder().exists()) {
-			getDataFolder().mkdirs();
-		}
-		File dataFile = new File(getDataFolder(), "data.yml");
-		if (!dataFile.exists()) {
-			try {
-				dataFile.createNewFile();
-			} catch (IOException e) {
-				getLogger().severe("Could not write data file: " + dataFile);
-				getServer().getPluginManager().disablePlugin(this);
-			}
-		}
-		data = YamlConfiguration.loadConfiguration(dataFile);
-		for (String key: data.getKeys(false)) {
-			playerMap.put(UUID.fromString(key), data.getString(key));
+		saveDefaultConfig();
+		try {
+			datastore = Datastore.create(this, getConfig().getString("datastore.type", null));
+			datastore.enable();
+		} catch (DatastoreException e) {
+			getLogger().severe("Failed to initialize datastore, shutting down.");
+			e.printStackTrace();
+			getServer().getPluginManager().disablePlugin(this);
 		}
 	}
 
 	@Override
 	public void onDisable() {
 		instance = null;
-		if (data != null) {
-			File dataFile = dataFile = new File(getDataFolder(), "data.yml");
-			try {
-				data.save(dataFile);
-			} catch (IOException e) {
-				getLogger().severe("Could not write data file: " + dataFile);
-			}
+		if (datastore != null) {
+			datastore.disable();
 		}
 	}
 

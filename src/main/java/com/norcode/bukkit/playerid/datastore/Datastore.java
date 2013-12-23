@@ -1,10 +1,9 @@
-package com.norcode.bukkit.playerid;
+package com.norcode.bukkit.playerid.datastore;
 
-import org.bukkit.configuration.Configuration;
+import com.norcode.bukkit.playerid.PlayerID;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -44,13 +43,16 @@ public abstract class Datastore {
 		}
 	}
 
+	public static HashMap<String, Class<? extends Datastore>> getRegisteredDatastores() {
+		return registry;
+	}
+
 	protected Datastore(PlayerID plugin) {
 		this.plugin = plugin;
 	}
 
-	public static Datastore create(PlayerID plugin) throws DatastoreException {
-		ConfigurationSection cfg = plugin.getConfig().getConfigurationSection("datastore");
-		Class<? extends Datastore> impl = getImplementation(cfg.getString("type"));
+	public static Datastore create(PlayerID plugin, String type) throws DatastoreException {
+		Class<? extends Datastore> impl = getImplementation(type);
 		Datastore store = null;
 		try {
 			store = impl.getConstructor(PlayerID.class).newInstance(plugin);
@@ -66,7 +68,7 @@ public abstract class Datastore {
 		return store;
 	}
 
-	void enable() throws DatastoreException {
+	public void enable() throws DatastoreException {
 		onEnable();
 		namesById.clear();
 		idsByName.clear();
@@ -76,7 +78,7 @@ public abstract class Datastore {
 		}
 	}
 
-	void disable() {
+	public void disable() {
 		onDisable();
 	}
 
@@ -88,39 +90,39 @@ public abstract class Datastore {
 		return idsByName;
 	}
 
-	protected void save(UUID id, Player player) {
-		namesById.put(id, player.getName());
-		idsByName.put(player.getName().toLowerCase(), id);
-		savePlayerId(id, player.getName());
+	public void save(UUID id, String player) {
+		namesById.put(id, player);
+		idsByName.put(player.toLowerCase(), id);
+		savePlayerId(id, player);
 	}
 
-	protected void delete(UUID id) {
+	public void delete(UUID id) {
 		String name = namesById.remove(id);
 		idsByName.remove(name.toLowerCase());
 		deletePlayerId(id);
 	}
 
-	public ConfigurationSection getPlayerData(JavaPlugin plugin, UUID playerId) {
+	public ConfigurationSection getPlayerData(Plugin plugin, UUID playerId) {
 		return getPlayerData(plugin.getName(), playerId);
 	}
 
-	public ConfigurationSection getPlayerData(JavaPlugin plugin, String playerName) {
+	public ConfigurationSection getPlayerData(Plugin plugin, String playerName) {
 		return getPlayerData(plugin, idsByName.get(playerName.toLowerCase()));
 	}
 
-	public ConfigurationSection getPlayerData(JavaPlugin plugin, Player player) {
+	public ConfigurationSection getPlayerData(Plugin plugin, Player player) {
 		return getPlayerData(plugin, player.getUniqueId());
 	}
 
-	public void savePlayerData(JavaPlugin plugin, UUID playerId, ConfigurationSection configuration) {
+	public void savePlayerData(Plugin plugin, UUID playerId, ConfigurationSection configuration) {
 		savePlayerData(plugin.getName(), playerId, configuration);
 	}
 
-	public void savePlayerData(JavaPlugin plugin, String playerName, ConfigurationSection configuration) {
+	public void savePlayerData(Plugin plugin, String playerName, ConfigurationSection configuration) {
 		savePlayerData(plugin, idsByName.get(playerName), configuration);
 	}
 
-	public void savePlayerData(JavaPlugin plugin, Player player, ConfigurationSection configuration) {
+	public void savePlayerData(Plugin plugin, Player player, ConfigurationSection configuration) {
 		savePlayerData(plugin, player.getUniqueId(), configuration);
 	}
 
@@ -133,4 +135,6 @@ public abstract class Datastore {
 	protected abstract void onDisable();
 	protected abstract ConfigurationSection getPlayerData(String plugin, UUID playerId);
 	protected abstract void savePlayerData(String plugin, UUID playerId, ConfigurationSection configuration);
+	public abstract boolean pluginHasData(String plugin);
+	public abstract String getType();
 }

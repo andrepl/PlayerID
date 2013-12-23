@@ -2,3 +2,16 @@ name: ${project.name}
 main: ${project.main}
 version: ${project.version}
 authors: ${project.authors}
+commands:
+  playerid:
+    description: administrative commands for PlayerID
+    permission: playerid.command
+
+permissions:
+
+  playerid.command:
+    default: op
+  playerid.command.import:
+    default: op
+  playerid.command.export:
+    default: op

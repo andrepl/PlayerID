@@ -1,13 +1,18 @@
-package com.norcode.bukkit.playerid;
+package com.norcode.bukkit.playerid.datastore;
 
+import com.norcode.bukkit.playerid.PlayerID;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -132,5 +137,16 @@ public class YamlDatastore extends Datastore {
 		}
 		YamlConfiguration cfg = pluginData.get(plugin);
 		cfg.set(playerId.toString(), configuration);
+	}
+
+	@Override
+	public boolean pluginHasData(String plugin) {
+		File pluginFile = new File(pluginDataDir, plugin+".yml");
+		return pluginFile.exists();
+	}
+
+	@Override
+	public String getType() {
+		return "yaml";
 	}
 }
