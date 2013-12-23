@@ -4,12 +4,14 @@ import com.norcode.bukkit.playerid.command.PlayerIDCommand;
 import com.norcode.bukkit.playerid.datastore.Datastore;
 import com.norcode.bukkit.playerid.datastore.DatastoreException;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -81,6 +83,14 @@ public class PlayerID extends JavaPlugin implements Listener {
 	 */
 	public static Player getPlayer(UUID uuid) {
 		return instance.getServer().getPlayerExact(getPlayerName(uuid));
+	}
+
+	public ConfigurationSection getPlayerData(String plugin, Player player) {
+		return datastore.getPlayerData(plugin, player.getUniqueId());
+	}
+
+	public void savePlayerData(String plugin, Player player, ConfigurationSection cfg) {
+		datastore.savePlayerData(plugin, player.getUniqueId(), cfg);
 	}
 
 	public Datastore getDatastore() {

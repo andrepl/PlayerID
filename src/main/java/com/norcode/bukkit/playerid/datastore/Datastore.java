@@ -103,27 +103,20 @@ public abstract class Datastore {
 		deletePlayerId(id);
 	}
 
-	public ConfigurationSection getPlayerData(Plugin plugin, UUID playerId) {
-		return getPlayerData(plugin.getName(), playerId);
-	}
-
-	public ConfigurationSection getPlayerData(Plugin plugin, String playerName) {
+	public ConfigurationSection getPlayerData(String plugin, String playerName) {
 		return getPlayerData(plugin, idsByName.get(playerName.toLowerCase()));
 	}
 
-	public ConfigurationSection getPlayerData(Plugin plugin, Player player) {
+	public ConfigurationSection getPlayerData(String plugin, Player player) {
 		return getPlayerData(plugin, player.getUniqueId());
 	}
 
-	public void savePlayerData(Plugin plugin, UUID playerId, ConfigurationSection configuration) {
-		savePlayerData(plugin.getName(), playerId, configuration);
-	}
 
-	public void savePlayerData(Plugin plugin, String playerName, ConfigurationSection configuration) {
+	public void savePlayerData(String plugin, String playerName, ConfigurationSection configuration) {
 		savePlayerData(plugin, idsByName.get(playerName), configuration);
 	}
 
-	public void savePlayerData(Plugin plugin, Player player, ConfigurationSection configuration) {
+	public void savePlayerData(String plugin, Player player, ConfigurationSection configuration) {
 		savePlayerData(plugin, player.getUniqueId(), configuration);
 	}
 
@@ -134,8 +127,8 @@ public abstract class Datastore {
 	protected abstract void deletePlayerId(UUID id);
 	protected abstract void deletePlayerIds(Set<UUID> ids);
 	protected abstract void onDisable();
-	protected abstract ConfigurationSection getPlayerData(String plugin, UUID playerId);
-	protected abstract void savePlayerData(String plugin, UUID playerId, ConfigurationSection configuration);
+	public abstract ConfigurationSection getPlayerData(String plugin, UUID playerId);
+	public abstract void savePlayerData(String plugin, UUID playerId, ConfigurationSection configuration);
 	public abstract boolean pluginHasData(String plugin);
 	public abstract String getType();
 }
