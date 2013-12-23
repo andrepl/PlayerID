@@ -1,18 +1,13 @@
 package com.norcode.bukkit.playerid.datastore;
 
 import com.norcode.bukkit.playerid.PlayerID;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -118,7 +113,7 @@ public class YamlDatastore extends Datastore {
 	}
 
 	@Override
-	protected ConfigurationSection getPlayerData(String plugin, UUID playerId) {
+	public ConfigurationSection getPlayerData(String plugin, UUID playerId) {
 		if (!pluginData.containsKey(plugin)) {
 			initializePluginData(plugin);
 		}
@@ -131,7 +126,7 @@ public class YamlDatastore extends Datastore {
 	}
 
 	@Override
-	protected void savePlayerData(String plugin, UUID playerId, ConfigurationSection configuration) {
+	public void savePlayerData(String plugin, UUID playerId, ConfigurationSection configuration) {
 		if (!pluginData.containsKey(plugin)) {
 			initializePluginData(plugin);
 		}

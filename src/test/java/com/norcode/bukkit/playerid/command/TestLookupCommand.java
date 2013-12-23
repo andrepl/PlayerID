@@ -1,6 +1,5 @@
 package com.norcode.bukkit.playerid.command;
 
-import com.norcode.bukkit.playerid.command.LookupCommand;
 import org.bukkit.ChatColor;
 import org.junit.Assert;
 import org.junit.Test;

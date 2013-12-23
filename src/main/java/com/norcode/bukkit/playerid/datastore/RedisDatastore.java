@@ -2,10 +2,7 @@ package com.norcode.bukkit.playerid.datastore;
 
 import com.norcode.bukkit.playerid.PlayerID;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -100,7 +97,7 @@ public class RedisDatastore extends Datastore {
 	}
 
 	@Override
-	protected ConfigurationSection getPlayerData(String plugin, UUID playerId) {
+	public ConfigurationSection getPlayerData(String plugin, UUID playerId) {
 		Jedis j = pool.getResource();
 		String result = j.hget(HASH_PLUGIN_DATA + plugin, playerId.toString());
 		if (result == null) {
@@ -112,7 +109,7 @@ public class RedisDatastore extends Datastore {
 	}
 
 	@Override
-	protected void savePlayerData(String plugin, UUID playerId, ConfigurationSection configuration) {
+	public void savePlayerData(String plugin, UUID playerId, ConfigurationSection configuration) {
 		YamlConfiguration cfg = new YamlConfiguration();
 		for (Map.Entry<String, Object> entry: configuration.getValues(true).entrySet()) {
 			cfg.set(entry.getKey(), entry.getValue());

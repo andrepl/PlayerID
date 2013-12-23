@@ -3,7 +3,6 @@ package com.norcode.bukkit.playerid.datastore;
 import com.norcode.bukkit.playerid.PlayerID;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
