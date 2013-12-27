@@ -46,10 +46,10 @@ public class ImportCommand extends BaseCommand {
 			if (oldStore.pluginHasData(pl.getName())) {
 				count = 0;
 				for (UUID uuid: oldStore.getNamesById().keySet()) {
-					ConfigurationSection cfg = oldStore.getPlayerData(pl, uuid);
+					ConfigurationSection cfg = oldStore.getPlayerData(pl.getName(), uuid);
 					if (cfg.getKeys(false).size() > 0) {
 						count ++;
-						plugin.getDatastore().savePlayerData(pl, uuid, cfg);
+						plugin.getDatastore().savePlayerData(pl.getName(), uuid, cfg);
 					}
 				}
 				commandSender.sendMessage("Imported " + pl.getName() + " data for " + count + " players.");

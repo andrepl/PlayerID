@@ -46,10 +46,10 @@ public class ExportCommand extends BaseCommand {
 			if (plugin.getDatastore().pluginHasData(pl.getName())) {
 				count = 0;
 				for (UUID uuid: plugin.getDatastore().getNamesById().keySet()) {
-					ConfigurationSection cfg = plugin.getDatastore().getPlayerData(pl, uuid);
+					ConfigurationSection cfg = plugin.getDatastore().getPlayerData(pl.getName(), uuid);
 					if (cfg.getKeys(false).size() > 0) {
 						count ++;
-						newStore.savePlayerData(pl, uuid, cfg);
+						newStore.savePlayerData(pl.getName(), uuid, cfg);
 					}
 				}
 				commandSender.sendMessage("Exported " + pl.getName() + " data for " + count + " players.");
