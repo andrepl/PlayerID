@@ -21,7 +21,7 @@ public class YamlDatastore extends Datastore {
 
 	private HashMap<String, YamlConfiguration> pluginData;
 
-	protected YamlDatastore(PlayerID plugin) {
+	public YamlDatastore(PlayerID plugin) {
 		super(plugin);
 	}
 

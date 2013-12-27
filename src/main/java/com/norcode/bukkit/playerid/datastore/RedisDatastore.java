@@ -25,7 +25,7 @@ public class RedisDatastore extends Datastore {
 	public static String HASH_PLAYER_IDS = "player-ids";
 	public static String HASH_PLUGIN_DATA = "plugin-data::";
 
-	protected RedisDatastore(PlayerID plugin) {
+	public RedisDatastore(PlayerID plugin) {
 		super(plugin);
 	}
 
