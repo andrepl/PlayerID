@@ -44,6 +44,9 @@ public class YamlDatastore extends Datastore {
 		// create the player-data dir
 		pluginDataDir = new File(plugin.getDataFolder(), "data");
 		pluginDataDir = new File(pluginDataDir, "plugin-data");
+		if (!pluginDataDir.isDirectory()) {
+			pluginDataDir.mkdirs();
+		}
 
 	}
 
