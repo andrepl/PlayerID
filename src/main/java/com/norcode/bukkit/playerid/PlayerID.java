@@ -81,12 +81,12 @@ public class PlayerID extends JavaPlugin implements Listener {
 		return instance.getServer().getPlayerExact(getPlayerName(uuid));
 	}
 
-	public ConfigurationSection getPlayerData(String plugin, Player player) {
-		return datastore.getPlayerData(plugin, player.getUniqueId());
+	public static ConfigurationSection getPlayerData(String plugin, Player player) {
+		return instance.datastore.getPlayerData(plugin, player.getUniqueId());
 	}
 
-	public void savePlayerData(String plugin, Player player, ConfigurationSection cfg) {
-		datastore.savePlayerData(plugin, player.getUniqueId(), cfg);
+	public static void savePlayerData(String plugin, Player player, ConfigurationSection cfg) {
+		instance.datastore.savePlayerData(plugin, player.getUniqueId(), cfg);
 	}
 
 	public Datastore getDatastore() {
