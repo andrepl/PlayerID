@@ -19,7 +19,7 @@ public class YamlDatastore extends Datastore {
 
 	private File pluginDataDir;
 
-	private HashMap<String, YamlConfiguration> pluginData;
+	private HashMap<String, YamlConfiguration> pluginData = new HashMap<String, YamlConfiguration>();
 
 	public YamlDatastore(PlayerID plugin) {
 		super(plugin);
