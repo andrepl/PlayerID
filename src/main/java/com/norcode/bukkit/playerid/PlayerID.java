@@ -36,6 +36,7 @@ public class PlayerID extends JavaPlugin implements Listener {
 			e.printStackTrace();
 			getServer().getPluginManager().disablePlugin(this);
 		}
+		getServer().getPluginManager().registerEvents(this, this);
 	}
 
 	@Override
